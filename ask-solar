@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh 
+
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Ask SOLAR 
+# @raycast.mode fullOutput
+
+# Optional parameters:
+# @raycast.icon 🤖
+# @raycast.argument1 { "type": "text", "placeholder": "Question" }
+# @raycast.packageName llm-ask
+
+# Documentation:
+# @raycast.description Asks a question to SOLAR-10.7B model 
+# @raycast.author zmactep
+# @raycast.authorURL https://raycast.com/zmactep
+
+LLM_PATH="/Users/pavel/.local/share/llm"
+MODEL="solar-10.7b-instruct-v1.0.Q5_K_M.gguf"
+
+PROMPT="### User:\n$1\n\n### Assistant:\n"
+
+$LLM_PATH/llama.cpp/main -t 10 -m "$LLM_PATH/models/$MODEL" -ngl 49 -c 4096 --temp 0.7 --repeat_penalty 1.1 -p "$PROMPT" 2> /dev/null
