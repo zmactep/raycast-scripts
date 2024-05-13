@@ -16,8 +16,8 @@
 # @raycast.authorURL https://raycast.com/zmactep
 
 LLM_PATH="/Users/pavel/.local/share/llm"
-MODEL="solar-10.7b-instruct-v1.0.Q5_K_M.gguf"
+MODEL="solar-10.7b-instruct-v1.0.Q6_K.gguf"
 
 PROMPT="### User:\n$1\n\n### Assistant:\n"
 
-$LLM_PATH/llama.cpp/main -t 10 -m "$LLM_PATH/models/$MODEL" -ngl 49 -c 4096 --temp 0.7 --repeat_penalty 1.1 -p "$PROMPT" 2> /dev/null
+$LLM_PATH/llama.cpp/main --no-display-prompt -t 10 -m "$LLM_PATH/models/$MODEL" -ngl 49 -c 4096 --temp 0.7 --repeat_penalty 1.1 -p "$PROMPT" 2> /dev/null

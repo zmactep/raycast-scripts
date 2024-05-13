@@ -18,14 +18,27 @@
 import sys
 sys.dont_write_bytecode = True
 
-from llm_suite import download_text, run_llm, \
-                      make_ask_prompt, get_arc_url
+from llm_suite import download_text, run_llm_subp, \
+                      make_ask_prompt, get_arc_url, \
+                      detect_paragraphs, filter_paragraphs, \
+                      paragraphs_to_article
+
+
+def prepare_article(article):
+    paragraphs = detect_paragraphs(article)
+    paragraphs = filter_paragraphs(paragraphs,
+                                   skip_titles=["References", "Funding",
+                                                "Rights and permissions",
+                                                "Additional information",
+                                                "Competing interests"])
+    return paragraphs_to_article(paragraphs)
 
 
 if __name__ == "__main__":
     question = sys.argv[1]
     url = get_arc_url()
     article = download_text(url)
+    article = prepare_article(article)
     prompt = make_ask_prompt(question, article)
-    output = run_llm(prompt)
+    output = run_llm_subp(prompt)
     print(output)
